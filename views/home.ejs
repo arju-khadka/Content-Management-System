@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="refresh" content="2">
+  <title>Navbar, Cards & Footer</title>
+
+  <!-- INTERNAL CSS -->
+  <style>
+    :root {
+      --green: #005C32;
+      --gold: #D3AF5E;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAVBAR */
+    .nav {
+      background: var(--green);
+      padding: 1rem;
+      color: #fff;
+    }
+    .nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* CARDS */
+    .cards-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding: 2rem;
+    }
+    .card {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      border-left: 6px solid var(--gold);
+    }
+    .card h3 {
+      margin-top: 0;
+      color: var(--green);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--green);
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .cards-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  
+ <%- include("navbar.ejs") %>
+
+  <main class="main-content" style="flex:1;">
+  <!-- CARDS SECTION -->
+  <section class="cards-section">
+    <div class="card">
+      <h3>Card 1</h3>
+      <p>This is a sample description for card one.</p>
+    </div>
+    <div class="card">
+      <h3>Card 2</h3>
+      <p>This is a sample description for card two.</p>
+    </div>
+    <div class="card">
+      <h3>Card 3</h3>
+      <p>This is a sample description for card three.</p>
+    </div>
+  </section>
+</main>
+
+  <%- include("footer.ejs") %>
+
+</body>
+</html>
