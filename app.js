@@ -1,16 +1,18 @@
 const express = require("express")
 const app = express()
 
+require("./model/index")
+
 //telling nodejs to set its view engine to ejs
 app.set('view engine','ejs')
 
 // Home Page
-
-app.get("/",(rew,res)=>{
+app.get("/",(req,res)=>{
     res.render("home")
 })
 
-app.get("/about",(rew,res)=>{
+//About page
+app.get("/about",(req,res)=>{
     res.render("about")
 })
 
