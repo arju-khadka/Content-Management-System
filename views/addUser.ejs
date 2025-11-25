@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #005C32;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            margin: 0;
+        }
+
+        nav ul li a {
+            color: #D3AF5E;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        /* Registration Form Section */
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f7f7f7;
+            padding: 40px 20px;
+        }
+
+        .form-box {
+            width: 420px;
+            background: white;
+            border: 2px solid #005C32;
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .form-box h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #005C32;
+        }
+
+        label {
+            font-weight: bold;
+            color: #005C32;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 18px;
+            border: 1px solid #005C32;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #005C32;
+            color: #D3AF5E;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #005C32;
+            color: #D3AF5E;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Content CMS</div>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/addblog">Add Blog</a></li>
+            <li><a href="/register">Register</a></li>
+        </ul>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="container">
+        <div class="form-box">
+            <h2>Create Account</h2>
+            <form action="/adduser" method="POST">
+                <label>Full Name</label>
+                <input type="text" name="name" placeholder="Enter your name" required>
+
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter email address" required>
+
+                <label>Age</label>
+                <input type="number" name="age" placeholder="Enter age" required>
+
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2025 Content CMS | All Rights Reserved
+    </footer>
+
+</body>
+</html>

@@ -1,9 +1,8 @@
 const express = require("express")
+const { blogs , users } = require("./model/index")
 const app = express()
 
-const blogs = require("./model/blogModel"); 
 
-require("./model/index")
 
 //telling nodejs to set its view engine to ejs
 app.set('view engine','ejs')
@@ -37,6 +36,28 @@ app.post("/addblog",async(req,res)=>{
 
     res.send("Blog added successfully")
 })
+
+// user table
+app.get("/adduser",(req,res)=>{
+    res.render("addUser")
+})
+
+app.post("/adduser",async(req,res)=>{
+    console.log(req.body)
+
+    
+    const {name,email,age} = req.body
+    
+    //inserting into user tables
+   await users.create({
+        name : name,
+        email : email,
+        age : age
+    })
+
+    res.send("User registered successfully")
+})
+
 
 
 
