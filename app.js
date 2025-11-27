@@ -11,8 +11,11 @@ app.use(express.urlencoded({extended : true}))
 
 
 // Home Page
-app.get("/",(req,res)=>{
-    res.render("home")
+app.get("/", async(req,res)=>{
+    //blogs table bata data(row) nikalnu paro ani homepage lai pass garnuparo
+    const blogsTableBlogs = await blogs.findAll()
+    
+    res.render("home", {blogs : blogsTableBlogs})
 })
 
 app.get("/addblog",(req,res)=>{
@@ -26,6 +29,9 @@ app.post("/addblog",async(req,res)=>{
     // const subTitle = req.body.subTitle
     // const description = req.body.description
     const {title,subTitle,description} = req.body
+    if(!title || !subTitle || !description){
+        return res.send("Please provide title,subtitle and description")
+    }
     
     //inserting into blogs tables
    await blogs.create({
@@ -34,7 +40,7 @@ app.post("/addblog",async(req,res)=>{
         description : description
     })
 
-    res.send("Blog added successfully")
+    res.redirect("/")
 })
 
 // user table
@@ -47,6 +53,7 @@ app.post("/adduser",async(req,res)=>{
 
     
     const {name,email,age} = req.body
+    
     
     //inserting into user tables
    await users.create({

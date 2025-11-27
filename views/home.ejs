@@ -94,18 +94,15 @@
   <main class="main-content" style="flex:1;">
   <!-- CARDS SECTION -->
   <section class="cards-section">
-    <div class="card">
-      <h3>Card 1</h3>
-      <p>This is a sample description for card one.</p>
+    <% blogs.forEach((blog)=>{ %>
+      <div class="card">
+      <h2><%- blog.title %></h2>
+      <h3><%- blog.subTitle %></h3>
+      <h4><%- blog.description %></h4>
     </div>
-    <div class="card">
-      <h3>Card 2</h3>
-      <p>This is a sample description for card two.</p>
-    </div>
-    <div class="card">
-      <h3>Card 3</h3>
-      <p>This is a sample description for card three.</p>
-    </div>
+
+   <% }) %>
+    
   </section>
 </main>
 
