@@ -92,17 +92,18 @@
  <%- include("navbar.ejs") %>
 
   <main class="main-content" style="flex:1;">
-  <!-- CARDS SECTION -->
+  
   <section class="cards-section">
-    <% blogs.forEach((blog)=>{ %>
+    
       <div class="card">
-      <h2><%- blog.title %></h2>
-      <h3><%- blog.subTitle %></h3>
-      <h4><%- blog.description %></h4>
-      <a href="/blog/<%- blog.id %>">See More</a>
+      <h2><%- blog[0].title  %></h2>
+      <h3><%- blog[0].subTitle  %></h3>
+      <h4><%- blog[0].description  %></h4>
+      <button><a href="/delete/<%-blog[0].id  %>">Delete Me</a></button>
+      
     </div>
 
-   <% }) %>
+   
     
   </section>
 </main>

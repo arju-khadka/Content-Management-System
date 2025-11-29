@@ -1,5 +1,6 @@
 const express = require("express")
 const { blogs , users } = require("./model/index")
+const { Where } = require("sequelize/lib/utils")
 const app = express()
 
 
@@ -65,9 +66,29 @@ app.post("/adduser",async(req,res)=>{
     res.send("User registered successfully")
 })
 
+//single blog
+app.get("/blog/:id",async(req,res)=>{
+    const id = req.params.id
+//    const foundData = await blogs.findByPk(id)
+    const foundData = await blogs.findAll({
+        Where : {
+            id : id
+        }
+    })
+   console.log(foundData)
+    res.render("singleBlog.ejs",{blog : foundData})
+})
 
+app.get("/delete/:id",async(req,res)=>{
+    const id = req.params.id
+    await blogs.destroy({
+        where : {
+            id : id
+        }
+    })
+    res.redirect("/")
 
-
+})
 
 
 
