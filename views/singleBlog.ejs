@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,15 +29,18 @@
       padding: 1rem;
       color: #fff;
     }
+
     .nav .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .brand {
       font-size: 1.3rem;
       font-weight: bold;
     }
+
     .nav-links {
       list-style: none;
       display: flex;
@@ -44,6 +48,7 @@
       margin: 0;
       padding: 0;
     }
+
     .nav-links a {
       color: #fff;
       text-decoration: none;
@@ -57,13 +62,15 @@
       gap: 1rem;
       padding: 2rem;
     }
+
     .card {
       background: #fff;
       padding: 1rem;
       border-radius: 10px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
       border-left: 6px solid var(--gold);
     }
+
     .card h3 {
       margin-top: 0;
       color: var(--green);
@@ -88,28 +95,32 @@
 </head>
 
 <body>
-  
- <%- include("navbar.ejs") %>
 
-  <main class="main-content" style="flex:1;">
-  
-  <section class="cards-section">
-    
-      <div class="card">
-      <h2><%- blog[0].title  %></h2>
-      <h3><%- blog[0].subTitle  %></h3>
-      <h4><%- blog[0].description  %></h4>
-      <button><a href="/delete/<%-blog[0].id  %>">Delete Me</a></button>
-      <button><a href="/update/<%-blog[0].id  %>">Update Me</a></button>
-      
-    </div>
+  <%- include("navbar.ejs") %>
 
-   
-    
-  </section>
-</main>
+    <main class="main-content" style="flex:1;">
 
-  <%- include("footer.ejs") %>
+      <section class="cards-section">
+
+        <div class="card">
+          <h2><%- blog[0].title %></h2>
+          <h3><%- blog[0].subTitle %></h3>
+          <% if(blog[0].image) { %>
+            <img src="<%= blog[0].image %>" alt="Blog Image" style="max-width:400px; margin-bottom:10px;">
+            <% } %>
+              <h4><%- blog[0].description %></h4>
+              <button><a href="/delete/<%-blog[0].id  %>">Delete Me</a></button>
+              <button><a href="/update/<%-blog[0].id  %>">Update Me</a></button>
+
+        </div>
+
+
+
+      </section>
+    </main>
+
+    <%- include("footer.ejs") %>
 
 </body>
+
 </html>

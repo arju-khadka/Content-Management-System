@@ -1,94 +1,94 @@
 const express = require("express")
-const { blogs , users } = require("./model/index")
+const { blogs, users } = require("./model/index")
 const { Where } = require("sequelize/lib/utils")
-const { storage , multer } = require("./middleware/multerConfig")
+require("dotenv").config()
+const { storage, multer } = require("./middleware/multerConfig")
 const app = express()
 
-const upload = multer({storage : storage})
+const upload = multer({ storage: storage })
 
 
 
 
 //telling nodejs to set its view engine to ejs
-app.set('view engine','ejs')
+app.set('view engine', 'ejs')
 
-app.use(express.urlencoded({extended : true}))
+app.use(express.urlencoded({ extended: true }))
 
 
 // Home Page
-app.get("/", async(req,res)=>{
+app.get("/", async (req, res) => {
     //blogs table bata data(row) nikalnu paro ani homepage lai pass garnuparo
     const blogsTableBlogs = await blogs.findAll()
-    
-    res.render("home", {blogs : blogsTableBlogs})
+
+    res.render("home", { blogs: blogsTableBlogs })
 })
 
-app.get("/addblog",(req,res)=>{
+app.get("/addblog", (req, res) => {
     res.render("addBlog")
 })
 
-app.post("/addblog",upload.single('image'), async(req,res)=>{
-    console.log(req.body)
+app.post("/addblog", upload.single('image'), async (req, res) => {
+    console.log(req.file)
 
     // const title = req.body.title
     // const subTitle = req.body.subTitle
     // const description = req.body.description
-    const {title,subTitle,description} = req.body
-    if(!title || !subTitle || !description){
+    const { title, subTitle, description } = req.body
+    if (!title || !subTitle || !description) {
         return res.send("Please provide title,subtitle and description")
     }
-    
+
     //inserting into blogs tables
-   await blogs.create({
-        title : title,
-        subTitle : subTitle,
-        description : description
+    await blogs.create({
+        title: title,
+        subTitle: subTitle,
+        description: description,
+        image: process.env.backendUrl + req.file.filename
     })
 
     res.redirect("/")
 })
 
 // user table
-app.get("/adduser",(req,res)=>{
+app.get("/adduser", (req, res) => {
     res.render("addUser")
 })
 
-app.post("/adduser",async(req,res)=>{
-    console.log(req.body)
+app.post("/adduser", async (req, res) => {
 
-    
-    const {name,email,age} = req.body
-    
-    
+    const { name, email, age } = req.body
+
+
     //inserting into user tables
-   await users.create({
-        name : name,
-        email : email,
-        age : age
+    await users.create({
+        name: name,
+        email: email,
+        age: age
     })
 
     res.send("User registered successfully")
 })
 
 //single blog
-app.get("/blog/:id",async(req,res)=>{
+app.get("/blog/:id", async (req, res) => {
     const id = req.params.id
-//    const foundData = await blogs.findByPk(id)
+    //    const foundData = await blogs.findByPk(id)
     const foundData = await blogs.findAll({
-        Where : {
-            id : id
+        where: {
+            id: id
         }
     })
-   console.log(foundData)
-    res.render("singleBlog.ejs",{blog : foundData})
+    console.log(foundData)
+    res.render("singleBlog.ejs", { blog: foundData })
 })
 
 //delete
-app.get("/delete/:id",async(req,res)=>{
+app.get("/delete/:id", async (req, res) => {
     const id = req.params.id
     await blogs.destroy({
-        where : {
-            id : id
+        where: {
+            id: id
         }
     })
     res.redirect("/")
@@ -97,38 +97,53 @@ app.get("/delete/:id",async(req,res)=>{
 
 
 //update
-app.get("/update/:id",async(req,res)=>{
+app.get("/update/:id", async (req, res) => {
     const id = req.params.id
     const blog = await blogs.findByPk(id)
-    res.render("updateBlog", 
+    res.render("updateBlog",
         {
-            id : id,
-            blog : blog
+            id: id,
+            blog: blog
         })
 })
 
-app.post("/update/:id",async(req,res)=>{
-   const {id} = req.params
-   const { title,subTitle,description} = req.body
-   await blogs.update({
-    title : title,
-    subTitle : subTitle,
-    description : description
-    
-   },{
-    where : {
-        id : id
-    }
-   })
-   res.redirect("/blog/" + id)
-    
+app.post("/update/:id", async (req, res) => {
+    const { id } = req.params
+    const { title, subTitle, description } = req.body
+    await blogs.update({
+        title: title,
+        subTitle: subTitle,
+        description: description
+
+    }, {
+        where: {
+            id: id
+        }
+    })
+    res.redirect("/blog/" + id)
+
 })
 
+app.use(express.static("./uploads/"))
 
 
 
 
 
-app.listen(3000,()=>{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.listen(3000, () => {
     console.log("NodeJs project has started at port 3000")
 })
