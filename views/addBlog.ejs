@@ -1,84 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Content</title>
 
     <style>
-        *{
+        :root {
+            --green: #005C32;
+            --gold: #D3AF5E;
+        }
+
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
 
-        /* SAME NAVBAR AS HOMEPAGE */
-        nav{
-            width: 100%;
-            background: #005C32;
-            padding: 15px 40px;
+        /* NAVBAR */
+        .nav {
+            background: var(--green);
+            padding: 1rem;
+            color: #fff;
+        
+        }
+
+        .nav .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        nav .logo{
-            color: white;
-            font-size: 22px;
+        .brand {
+            font-size: 1.3rem;
             font-weight: bold;
         }
 
-        nav ul{
-            display: flex;
-            gap: 25px;
+        .nav-links {
             list-style: none;
+            display: flex;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
         }
 
-        nav ul li a{
-            color: #D3AF5E;
+        .nav-links a {
+            color: var(--gold);
             text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
+            font-weight: 600;
         }
 
-        nav ul li a:hover{
+        nav ul li a:hover {
             color: white;
         }
+
 
         /* PAGE BODY */
-        .container{
+        body > .container {
             width: 100%;
-            height: calc(100vh - 140px); /* header + footer height */
+            height: calc(100vh - 140px);
+            /* header + footer height */
             display: flex;
             justify-content: center;
             align-items: center;
             background: #f5f5f5;
         }
 
-        .form-box{
+        .form-box {
             width: 420px;
             background: white;
             padding: 25px;
             border-radius: 10px;
             border-top: 6px solid #005C32;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
         }
 
-        h2{
+        h2 {
             color: #005C32;
             text-align: center;
             margin-bottom: 20px;
         }
 
-        label{
+        label {
             display: block;
             margin-bottom: 5px;
             color: #005C32;
             font-weight: bold;
         }
 
-        input, textarea{
+        input,
+        textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -86,11 +99,11 @@
             border-radius: 5px;
         }
 
-        textarea{
+        textarea {
             height: 100px;
         }
 
-        button{
+        button {
             width: 100%;
             padding: 12px;
             background: #005C32;
@@ -101,12 +114,12 @@
             cursor: pointer;
         }
 
-        button:hover{
+        button:hover {
             background: #003d22;
         }
 
         /* SAME FOOTER AS HOMEPAGE */
-        footer{
+        footer {
             background: #005C32;
             color: white;
             text-align: center;
@@ -115,42 +128,39 @@
         }
     </style>
 </head>
+
 <body>
 
-    <!-- SAME NAVBAR -->
-    <nav>
-        <div class="logo">CMS Project</div>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="create.html">Create</a></li>
-        </ul>
-    </nav>
+    <%- include("navbar.ejs") %>
 
-    <!-- FORM SECTION -->
-    <div class="container">
-        <div class="form-box">
-            <h2>Create New Content</h2>
+        <!-- FORM SECTION -->
+        <div class="container">
+            <div class="form-box">
+                <h2>Create New Content</h2>
 
-            <form action="/addblog" method="post">
-                <label>Title</label>
-                <input type="text" name="title" placeholder="Enter title" required>
+                <form action="/addblog" method="post">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Enter title" required>
 
-                <label>SubTitle</label>
-                <input type="text" name="subTitle" placeholder="Enter subtitle" required>
+                    <label>SubTitle</label>
+                    <input type="text" name="subTitle" placeholder="Enter subtitle" required>
 
-                <label>Description</label>
-                <textarea name="description" placeholder="Enter description" required></textarea>
+                    <label>Description</label>
+                    <textarea name="description" placeholder="Enter description" required></textarea>
 
-                <button type="submit">Submit</button>
-            </form>
+                    <label>Image</label>
+                    <input type="file" name="image">
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- SAME FOOTER -->
-    <footer>
-        © 2025 CMS Project | All Rights Reserved
-    </footer>
+
+        <footer>
+            © 2025 CMS Project | All Rights Reserved
+        </footer>
 
 </body>
+
 </html>

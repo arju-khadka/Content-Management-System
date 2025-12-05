@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 
     <style>
+        :root {
+            --green: #005C32;
+            --gold: #D3AF5E;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -14,36 +20,47 @@
             flex-direction: column;
         }
 
-        /* Navbar */
-        nav {
-            background-color: #005C32;
-            padding: 15px 40px;
+        /* NAVBAR */
+        .nav {
+            background: var(--green);
+            padding: 1rem;
+            color: #fff;
+        }
+
+        .nav .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        nav .logo {
-            font-size: 22px;
+        .brand {
+            font-size: 1.3rem;
             font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav ul li a:hover {
             color: white;
         }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 25px;
-            margin: 0;
-        }
 
-        nav ul li a {
-            color: #D3AF5E;
-            text-decoration: none;
-            font-size: 16px;
-        }
+
 
         /* Registration Form Section */
-        .container {
+        body>.container {
             flex: 1;
             display: flex;
             justify-content: center;
@@ -98,49 +115,43 @@
         /* Footer */
         footer {
             background-color: #005C32;
-            color: #D3AF5E;
+            color: white;
             text-align: center;
             padding: 12px 0;
             font-size: 14px;
         }
-
     </style>
 </head>
+
 <body>
 
     <!-- Navbar -->
-    <nav>
-        <div class="logo">Content CMS</div>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/addblog">Add Blog</a></li>
-            <li><a href="/register">Register</a></li>
-        </ul>
-    </nav>
+    <%- include("navbar.ejs") %>
 
-    <!-- Registration Form -->
-    <div class="container">
-        <div class="form-box">
-            <h2>Create Account</h2>
-            <form action="/adduser" method="POST">
-                <label>Full Name</label>
-                <input type="text" name="name" placeholder="Enter your name" required>
+        <!-- Registration Form -->
+        <div class="container">
+            <div class="form-box">
+                <h2>Create Account</h2>
+                <form action="/adduser" method="POST">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="Enter your name" required>
 
-                <label>Email</label>
-                <input type="email" name="email" placeholder="Enter email address" required>
+                    <label>Email</label>
+                    <input type="email" name="email" placeholder="Enter email address" required>
 
-                <label>Age</label>
-                <input type="number" name="age" placeholder="Enter age" required>
+                    <label>Age</label>
+                    <input type="number" name="age" placeholder="Enter age" required>
 
-                <button type="submit">Register</button>
-            </form>
+                    <button type="submit">Register</button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer>
-        © 2025 Content CMS | All Rights Reserved
-    </footer>
+        <!-- Footer -->
+        <footer>
+            © 2025 Content CMS | All Rights Reserved
+        </footer>
 
 </body>
+
 </html>
