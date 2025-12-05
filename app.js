@@ -1,7 +1,11 @@
 const express = require("express")
 const { blogs , users } = require("./model/index")
 const { Where } = require("sequelize/lib/utils")
+const { storage , multer } = require("./middleware/multerConfig")
 const app = express()
+
+const upload = multer({storage : storage})
+
 
 
 
@@ -23,7 +27,7 @@ app.get("/addblog",(req,res)=>{
     res.render("addBlog")
 })
 
-app.post("/addblog",async(req,res)=>{
+app.post("/addblog",upload.single('image'), async(req,res)=>{
     console.log(req.body)
 
     // const title = req.body.title
