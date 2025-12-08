@@ -3,6 +3,7 @@ const { blogs, users } = require("./model/index")
 const { Where } = require("sequelize/lib/utils")
 require("dotenv").config()
 const { storage, multer } = require("./middleware/multerConfig")
+const { renderHome, renderAddBlog, addBlog, renderAddUser, addUSer, renderSingleBlog, renderDelete, renderUpdate, update } = require("./controller/blog/blogController")
 const app = express()
 
 const upload = multer({ storage: storage })
@@ -17,112 +18,28 @@ app.use(express.urlencoded({ extended: true }))
 
 
 // Home Page
-app.get("/", async (req, res) => {
-    //blogs table bata data(row) nikalnu paro ani homepage lai pass garnuparo
-    const blogsTableBlogs = await blogs.findAll()
+app.get("/", renderHome)
 
-    res.render("home", { blogs: blogsTableBlogs })
-})
+app.get("/addblog", renderAddBlog)
 
-app.get("/addblog", (req, res) => {
-    res.render("addBlog")
-})
-
-app.post("/addblog", upload.single('image'), async (req, res) => {
-    console.log(req.file)
-
-    // const title = req.body.title
-    // const subTitle = req.body.subTitle
-    // const description = req.body.description
-    const { title, subTitle, description } = req.body
-    if (!title || !subTitle || !description) {
-        return res.send("Please provide title,subtitle and description")
-    }
-
-    //inserting into blogs tables
-    await blogs.create({
-        title: title,
-        subTitle: subTitle,
-        description: description,
-        image: process.env.backendUrl + req.file.filename
-    })
-
-    res.redirect("/")
-})
+app.post("/addblog", upload.single('image'), addBlog)
 
 // user table
-app.get("/adduser", (req, res) => {
-    res.render("addUser")
-})
+app.get("/adduser", renderAddUser)
 
-app.post("/adduser", async (req, res) => {
-
-    const { name, email, age } = req.body
-
-
-    //inserting into user tables
-    await users.create({
-        name: name,
-        email: email,
-        age: age
-    })
-
-    res.send("User registered successfully")
-})
+app.post("/adduser", addUSer)
 
 //single blog
-app.get("/blog/:id", async (req, res) => {
-    const id = req.params.id
-    //    const foundData = await blogs.findByPk(id)
-    const foundData = await blogs.findAll({
-        where: {
-            id: id
-        }
-    })
-    console.log(foundData)
-    res.render("singleBlog.ejs", { blog: foundData })
-})
+app.get("/blog/:id", renderSingleBlog)
 
 //delete
-app.get("/delete/:id", async (req, res) => {
-    const id = req.params.id
-    await blogs.destroy({
-        where: {
-            id: id
-        }
-    })
-    res.redirect("/")
-
-})
+app.get("/delete/:id", renderDelete)
 
 
 //update
-app.get("/update/:id", async (req, res) => {
-    const id = req.params.id
-    const blog = await blogs.findByPk(id)
-    res.render("updateBlog",
-        {
-            id: id,
-            blog: blog
-        })
-})
+app.get("/update/:id", renderUpdate)
 
-app.post("/update/:id", async (req, res) => {
-    const { id } = req.params
-    const { title, subTitle, description } = req.body
-    await blogs.update({
-        title: title,
-        subTitle: subTitle,
-        description: description
-
-    }, {
-        where: {
-            id: id
-        }
-    })
-    res.redirect("/blog/" + id)
-
-})
+app.post("/update/:id", update)
 
 app.use(express.static("./uploads/"))
 
