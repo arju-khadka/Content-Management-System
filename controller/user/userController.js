@@ -6,15 +6,15 @@ exports.renderAddUser = (req, res) => {
 
 exports.addUSer = async (req, res) => {
 
-    const { name, email, age } = req.body
+    const { name, email, password } = req.body
 
 
     //inserting into user tables
     await users.create({
         name: name,
         email: email,
-        age: age
+        password : password
     })
 
-    res.send("User registered successfully")
+    res.redirect("/")
 }
