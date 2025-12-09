@@ -3,6 +3,7 @@ require("dotenv").config()
 const app = express()
 
 const blogRoute = require("./routes/blogRoute")
+const userRoute = require("./routes/userRoute")
 
 
 //telling nodejs to set its view engine to ejs
@@ -13,6 +14,7 @@ app.use(express.static("./uploads/"))
 
 
 app.use("", blogRoute)
+app.use("",userRoute)
 
 app.listen(3000, () => {
     console.log("NodeJs project has started at port 3000")

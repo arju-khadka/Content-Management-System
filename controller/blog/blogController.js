@@ -34,24 +34,7 @@ exports.addBlog = async (req, res) => {
     res.redirect("/")
 }
 
-exports.renderAddUser = (req, res) => {
-    res.render("addUser")
-}
 
-exports.addUSer = async (req, res) => {
-
-    const { name, email, age } = req.body
-
-
-    //inserting into user tables
-    await users.create({
-        name: name,
-        email: email,
-        age: age
-    })
-
-    res.send("User registered successfully")
-}
 
 exports.renderSingleBlog = async (req, res) => {
     const id = req.params.id
