@@ -1,4 +1,5 @@
 const { users } = require("../../model")
+const bcrypt = require("bcryptjs")
 
 exports.renderAddUser = (req, res) => {
     res.render("addUSer")
@@ -13,7 +14,7 @@ exports.addUSer = async (req, res) => {
     await users.create({
         name: name,
         email: email,
-        password : password
+        password : bcrypt.hashSync(password,12)
     })
 
     res.redirect("/")
