@@ -44,7 +44,7 @@ exports.loginUser = async(req,res)=>{
        if (isMatched){
         res.send("Login Successfully")
        }else{
-        res.send("Invalid Password")
+        res.send("Email or Password is invalid")
        }
 
     }
