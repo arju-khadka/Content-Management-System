@@ -17,5 +17,9 @@ exports.addUSer = async (req, res) => {
         password : bcrypt.hashSync(password,12)
     })
 
-    res.redirect("/")
+    res.redirect("/login")
+}
+
+exports.renderLoginForm = (req,res) =>{
+    res.render("login.ejs")
 }
