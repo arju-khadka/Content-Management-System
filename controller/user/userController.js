@@ -44,7 +44,9 @@ exports.loginUser = async(req,res)=>{
        const isMatched = await  bcrypt.compareSync(password,user[0].password)
        if (isMatched){
         //generate tokens
-        var token =jwt.sign({name : "Arju"}, 'thisissecretkeydontshare',{expiresIn : '1d'}) 
+        var token =jwt.sign({id : user[0].id}, 'thisissecretkeydontshare',{expiresIn : '1d'}) 
+        res.cookie('token',token)
+        res.send("Logged in Successfully")
 
        }else{
         res.send("Email or Password is invalid")
