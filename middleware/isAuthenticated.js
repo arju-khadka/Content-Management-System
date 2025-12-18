@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken")
 const { promisify } = require("util")
+const db = require("../model/index")
+const users = db.users
 
 exports.isAuthenticated = async(req,res,next) =>{
    const token = req.cookies.token
@@ -12,6 +14,8 @@ exports.isAuthenticated = async(req,res,next) =>{
   if(!user){
     return res.redirect("/login")
   }
+  req.userId = verifiedResult.id
+
   next()
 
 }

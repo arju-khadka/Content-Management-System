@@ -1,3 +1,4 @@
+
 const { blogs } = require("../../model")
 
 
@@ -13,7 +14,7 @@ exports. renderAddBlog =  (req, res) => {
 }
 
 exports.addBlog = async (req, res) => {
-    console.log(req.file)
+    const { userId } = req
 
     // const title = req.body.title
     // const subTitle = req.body.subTitle
@@ -28,7 +29,8 @@ exports.addBlog = async (req, res) => {
         title: title,
         subTitle: subTitle,
         description: description,
-        image: process.env.backendUrl + req.file.filename
+        image: process.env.backendUrl + req.file.filename,
+        userId : userId
     })
 
     res.redirect("/")

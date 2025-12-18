@@ -29,6 +29,10 @@ const db = {};
 db.blogs = require('./blogModel')(sequelize,DataTypes);
 db.users = require('./userModel')(sequelize,DataTypes);
 
+//relationships
+db.users.hasMany(db.blogs)
+db.blogs.belongsTo(db.users)
+
 
 
 db.Sequelize = Sequelize;
