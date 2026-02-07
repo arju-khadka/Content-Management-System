@@ -111,8 +111,10 @@
               <h4><%- blog[0].description %></h4>
               <h4>Author: <%- blog[0].user.name %></h4>
 
-              <button><a href="/delete/<%-blog[0].id  %>">Delete Me</a></button>
+              <% if(currentUser){ %>
+                <button><a href="/delete/<%-blog[0].id  %>">Delete Me</a></button>
               <button><a href="/update/<%-blog[0].id  %>">Update Me</a></button>
+            <% }  %>
 
         </div>
 

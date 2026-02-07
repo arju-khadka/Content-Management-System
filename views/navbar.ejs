@@ -4,7 +4,13 @@
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/addBlog">Create</a></li>
-        <li><a href="/addUser">Register</a></li>
+        <% if(currentUser){ %>
+          <a href="/logout">Logout</a>
+       <% }else{ %>
+          <a href="/addUser">Register</a>
+          <a href="/login">Login</a>
+       <% } %>
+        
         <li><a href="#">Contact</a></li>
       </ul>
     </div>

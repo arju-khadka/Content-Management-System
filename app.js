@@ -13,6 +13,11 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("./uploads/"))
 
+app.use((req,res,next)=>{
+    res.locals.currentUser = req.cookies.token
+    next()
+})
+
 
 
 app.use("", blogRoute)
