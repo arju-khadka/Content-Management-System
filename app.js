@@ -5,7 +5,15 @@ const cookieParser = require('cookie-parser')
 
 const blogRoute = require("./routes/blogRoute")
 const userRoute = require("./routes/userRoute")
+const session = require("express-session")
+const flash = require("connect-flash")
 
+app.use(session({
+    secret : "hellothisissecret",
+    resave : false,
+    saveUninitialized : false
+}))
+app.use(flash())
 
 //telling nodejs to set its view engine to ejs
 app.set('view engine', 'ejs')

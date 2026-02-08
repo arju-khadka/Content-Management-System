@@ -20,11 +20,14 @@ exports.addUSer = async (req, res) => {
         password : bcrypt.hashSync(password,12)
     })
 
-    res.redirect("/login")
+    res.flash("seccess","Registered Successfully")
+    res.redirect("login")
 }
 
 exports.renderLoginForm = (req,res) =>{
-    res.render("login.ejs")
+    const [error] = req.flash("error")
+    const [success] = req.flash("success")
+    res.render("login.ejs",{error,success})
 }
 
 exports.loginUser = async(req,res)=>{
@@ -51,7 +54,8 @@ exports.loginUser = async(req,res)=>{
         res.redirect("/")
 
        }else{
-        res.send("Email or Password is invalid")
+        res.flash("error","Invalid Email or Password")
+        res.redirect("/login")
        }
 
     }
@@ -65,7 +69,8 @@ exports.logOutUser = (req,res) =>{
 }
 
 exports.forgotPassword = (req,res)=>{
-    res.render("forgotPassword")
+    const [error] = req.flash("error")
+    res.render("forgotPassword",{error})
 }
 
 exports.handleForgotPassword = async(req,res)=>{
@@ -80,7 +85,8 @@ exports.handleForgotPassword = async(req,res)=>{
         }
     })
     if(userData.length === 0){
-        return res.send("No user with that email")
+        req.flash("error","No user with that email")
+        res.redirect("/forgotPassword")
     }
     //tyo email ma otp send garne
     const otp = Math.floor(100000 + Math.random() * 900000)
@@ -100,7 +106,8 @@ exports.handleForgotPassword = async(req,res)=>{
 
 exports.renderOtpForm = (req,res) =>{
     const email = req.query.email
-    res.render("otpForm", {email : email})
+    const [error] = req.flash("error")
+    res.render("otpForm", {email : email, error})
 }
 
 exports.verifyOtp = async(req,res)=>{
@@ -112,8 +119,10 @@ exports.verifyOtp = async(req,res)=>{
             email : email
         }
     })
-    if(data.length < 0){
-        return res.send("Invalid OTP")
+    if(data.length === 0){
+        req.flash("error","Invalid OTP")
+        res.redirect("/otpForm?email=" + email)
+        return
     }
     const currentTime = Date.now()
     const otpGeneratedTime = data[0].otpGeneratedTime
