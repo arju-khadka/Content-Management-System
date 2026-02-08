@@ -92,6 +92,7 @@ exports.handleForgotPassword = async(req,res)=>{
     }
     await sendEmail(data)
     userData[0].otp = otp
+    userData[0].otpGeneratedTime = Date.now()
     await userData[0].save()
     res.redirect("/otpForm?email=" + email)
 
@@ -114,5 +115,53 @@ exports.verifyOtp = async(req,res)=>{
     if(data.length < 0){
         return res.send("Invalid OTP")
     }
-    res.send("Correct OTP")
+    const currentTime = Date.now()
+    const otpGeneratedTime = data[0].otpGeneratedTime
+    if(currentTime - otpGeneratedTime <= 120000){
+        res.redirect(`/resetPassword?email=${email}&otp=${otp}`)
+    }else{
+        res.send("OTP has expired")
+    }
+    
 }
+
+exports.renderResetPassword = (req,res)=>{
+    const {email,otp} = req.query
+    if(!email || !otp){
+        return res.send("Please provide email and otp")
+    }
+    res.render("resetPassword",{email,otp})
+}
+
+exports.handleResetPassword = async(req,res)=>{
+    const email = req.params.email
+    const otp = req.params.otp
+    const {newPassword,newasswordConfirm} = req.body
+    if(!email || !otp || !newPassword || !newasswordConfirm){
+        return res.send("Please provide email,otp,newPassword,newPasswordConfirm")
+    }
+    if(newPassword !== newasswordConfirm){
+        return res.send("New password and new password confirm must be same")
+    }
+    const userData = await users.findAll({
+        where : {
+            email,
+            otp
+        }
+    })
+
+    const currentTime = Date.now()
+    const otpGeneratedTime = userData[0].otpGeneratedTime
+    if(currentTime - otpGeneratedTime <= 120000){
+        await users.update({
+            password : bcrypt.hashSync(newPassword,8)
+        },{
+            where : {
+                email : email
+            }
+        })
+        res.redirect("/login")
+    }else{
+        res.send("OTP has expired")
+    }
+} 
