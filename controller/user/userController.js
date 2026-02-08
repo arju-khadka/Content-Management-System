@@ -73,6 +73,15 @@ exports.handleForgotPassword = async(req,res)=>{
     if(!email){
         return res.send("Please provide Email")
     }
+
+    const userData = await users.findAll({
+        where:{
+            email
+        }
+    })
+    if(userData.length === 0){
+        return res.send("No user with that email")
+    }
     //tyo email ma otp send garne
     const otp = Math.floor(100000 + Math.random() * 900000)
 
@@ -82,6 +91,28 @@ exports.handleForgotPassword = async(req,res)=>{
         text : "Your OTP is: "+ otp
     }
     await sendEmail(data)
-    res.send("OTP sent successfully")
+    userData[0].otp = otp
+    await userData[0].save()
+    res.redirect("/otpForm?email=" + email)
 
+}
+
+exports.renderOtpForm = (req,res) =>{
+    const email = req.query.email
+    res.render("otpForm", {email : email})
+}
+
+exports.verifyOtp = async(req,res)=>{
+    const{otp} = req.body
+    const email = req.params.id
+    const data = await users.findAll({
+        where: {
+            otp : otp,
+            email : email
+        }
+    })
+    if(data.length < 0){
+        return res.send("Invalid OTP")
+    }
+    res.send("Correct OTP")
 }
