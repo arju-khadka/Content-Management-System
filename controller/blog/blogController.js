@@ -115,3 +115,24 @@ exports.addComment = async (req, res) => {
     })
     res.redirect("/blog/" + blogId)
 }
+
+exports.deleteComment = async(req,res)=>{
+    const {id} = req.params
+
+    const {userId} = req
+    const [comment] = await comments.findAll({
+        where : {
+            id
+        }
+    })
+    const blogId = comment.blogId
+    if(comment.userId !== userId){
+        return req.send("You dont have permission")
+    }
+    await comments.destroy({
+        where : {
+            id
+        }
+    })
+    res.redirect(`/blogs/${blogId}`)
+}

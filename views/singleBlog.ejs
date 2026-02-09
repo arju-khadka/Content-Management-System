@@ -121,6 +121,9 @@
         <ul>
           <% comments.forEach((comment)=>{ %>
             <li><% comment.commentMessage %> - <% -comment.user.username %> </li>
+            <% if(comment.userId === currentUserId){ %>
+              <a href="/deleteComment/<% -comment.id %>">Delete</a>
+            <% } %>
           <% }) %>
         </ul>
 
