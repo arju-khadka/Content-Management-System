@@ -26,13 +26,19 @@ sequelize
 
 const db = {};
 
-db.blogs = require('./blogModel')(sequelize,DataTypes);
-db.users = require('./userModel')(sequelize,DataTypes);
+db.blogs = require('./blogModel.js')(sequelize,DataTypes);
+db.users = require('./userModel.js')(sequelize,DataTypes);
+db.comments = require('./commentsModel.js')(sequelize,DataTypes);
 
 //relationships
 db.users.hasMany(db.blogs)
 db.blogs.belongsTo(db.users)
 
+db.users.hasMany(db.comments)
+db.comments.belongsTo(db.users)
+
+db.blogs.hasMany(db.comments)
+db.comments.belongsTo(db.blogs)
 
 
 db.Sequelize = Sequelize;

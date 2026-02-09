@@ -2,18 +2,18 @@
 const { blogs, users } = require("../../model")
 
 
-exports. renderHome = async (req, res) => {
+exports.renderHome = async (req, res) => {
     //blogs table bata data(row) nikalnu paro ani homepage lai pass garnuparo
     const blogsTableBlogs = await blogs.findAll({
-        include : {
-            model : users
+        include: {
+            model: users
         }
     })
 
     res.render("home", { blogs: blogsTableBlogs })
 }
 
-exports. renderAddBlog =  (req, res) => {
+exports.renderAddBlog = (req, res) => {
     res.render("addBlog")
 }
 
@@ -34,7 +34,7 @@ exports.addBlog = async (req, res) => {
         subTitle: subTitle,
         description: description,
         image: process.env.backendUrl + req.file.filename,
-        userId : userId
+        userId: userId
     })
 
     res.redirect("/")
@@ -49,12 +49,20 @@ exports.renderSingleBlog = async (req, res) => {
         where: {
             id: id
         },
-        include:{
+        include: {
+            model: users
+        }
+    })
+    const commentsData = await comments.findAll({
+        where : {
+            blogId : id
+        },
+        include : {
             model : users
         }
     })
-    console.log(foundData)
-    res.render("singleBlog.ejs", { blog: foundData })
+
+    res.render("singleBlog.ejs", { blog: foundData,commentsData })
 }
 
 exports.renderDelete = async (req, res) => {
@@ -93,4 +101,17 @@ exports.update = async (req, res) => {
     })
     res.redirect("/blog/" + id)
 
+}
+
+exports.addComment = async (req, res) => {
+    const { userId } = req
+    
+    const { commentMessage, blogId } = req.body
+    if (!commentMessage || !blogId) return res.send("Please provide CommentMessage, blogId")
+    await comments.create({
+        commentMessage,
+        blogId,
+        userId
+    })
+    res.redirect("/blog/" + blogId)
 }

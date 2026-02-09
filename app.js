@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 
 const blogRoute = require("./routes/blogRoute")
 const userRoute = require("./routes/userRoute")
+const commentRoute = require("./routes/commentRoute")
 const session = require("express-session")
 const flash = require("connect-flash")
 
@@ -30,6 +31,7 @@ app.use((req,res,next)=>{
 
 app.use("", blogRoute)
 app.use("",userRoute)
+app.use("",commentRoute)
 
 app.listen(3000, () => {
     console.log("NodeJs project has started at port 3000")
